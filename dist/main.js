@@ -34567,41 +34567,152 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Map */ "./src/components/Map.tsx");
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./globals */ "./src/globals.ts");
 /* harmony import */ var _components_Person__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Person */ "./src/components/Person.tsx");
+/* harmony import */ var _components_Hint__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Hint */ "./src/components/Hint.tsx");
+/* harmony import */ var _components_Counter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Counter */ "./src/components/Counter.tsx");
+/* harmony import */ var _components_Win__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Win */ "./src/components/Win.tsx");
+/* harmony import */ var _components_Lost__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Lost */ "./src/components/Lost.tsx");
+/* harmony import */ var _components_Enemy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Enemy */ "./src/components/Enemy.tsx");
 
 
 
 
-const App = () => {
-    const tiles = [];
-    for (let i = 0; i < _globals__WEBPACK_IMPORTED_MODULE_2__["MAP_HEIGHT"]; i++) {
-        tiles[i] = [];
-        for (let j = 0; j < _globals__WEBPACK_IMPORTED_MODULE_2__["MAP_WIDTH"]; j++) {
-            if (i === 4 && j !== 0) {
-                const random = Math.floor(Math.random() * Math.floor(100));
-                tiles[i][j] = random % 11 === 0 ? "tr" : random % 4 === 0 ? "st" : "sk";
-                continue;
+
+
+
+
+
+const tiles = [];
+let treasures = 0;
+for (let i = 0; i < _globals__WEBPACK_IMPORTED_MODULE_2__["MAP_HEIGHT"]; i++) {
+    tiles[i] = [];
+    for (let j = 0; j < _globals__WEBPACK_IMPORTED_MODULE_2__["MAP_WIDTH"]; j++) {
+        if (i === 4 && j !== 0) {
+            const random = Math.floor(Math.random() * Math.floor(100));
+            tiles[i][j] = random % 11 === 0 ? "tr" : random % 4 === 0 ? "st" : "sk";
+            if (random % 11 === 0 || random % 4 === 0) {
+                treasures++;
             }
-            if (i < 4) {
-                tiles[i][j] = "sk";
-                continue;
-            }
-            if (i === 5) {
-                tiles[i][j] = "gt";
-                continue;
-            }
-            if (i > 5) {
-                tiles[i][j] = "gr";
-                continue;
-            }
+            continue;
         }
+        if (i < 4) {
+            tiles[i][j] = "sk";
+            continue;
+        }
+        if (i === 5) {
+            tiles[i][j] = "gt";
+            continue;
+        }
+        if (i > 5) {
+            tiles[i][j] = "gr";
+            continue;
+        }
+    }
+}
+const App = () => {
+    const [grabbedTreasures, setGrabbedTreasures] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+    const [personPosition, setPersonPosition] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
+    const [enemyPosition, setEnemyPosition] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
+    const [isLost, setIsLost] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+    const grabTreasure = (i, j) => (tiles[i][j] === "st" || tiles[i][j] === "tr")
+        && !grabbedTreasures.find((treasure) => treasure === `${i}${j}`)
+        && setGrabbedTreasures([...grabbedTreasures, `${i}${j}`]);
+    if (personPosition && enemyPosition
+        && Math.abs(personPosition[0] - enemyPosition[0]) < 10
+        && Math.abs(personPosition[1] - enemyPosition[1]) < 50
+        && !isLost && grabbedTreasures.length !== treasures) {
+        setIsLost(true);
     }
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
             position: "relative",
             overflow: "hidden"
         } },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Person__WEBPACK_IMPORTED_MODULE_3__["Person"], null),
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Map__WEBPACK_IMPORTED_MODULE_1__["Map"], { tiles: tiles })));
+        !isLost && grabbedTreasures.length === treasures && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Win__WEBPACK_IMPORTED_MODULE_6__["Win"], null),
+        isLost && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Lost__WEBPACK_IMPORTED_MODULE_7__["Lost"], null),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Hint__WEBPACK_IMPORTED_MODULE_4__["Hint"], null),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Person__WEBPACK_IMPORTED_MODULE_3__["Person"], { grabTreasure: grabTreasure, setPosition: setPersonPosition }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Counter__WEBPACK_IMPORTED_MODULE_5__["Counter"], { common: treasures, left: grabbedTreasures.length }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Map__WEBPACK_IMPORTED_MODULE_1__["Map"], { tiles: tiles }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Enemy__WEBPACK_IMPORTED_MODULE_8__["Enemy"], { setPosition: setEnemyPosition })));
 };
+
+
+/***/ }),
+
+/***/ "./src/components/Counter.tsx":
+/*!************************************!*\
+  !*** ./src/components/Counter.tsx ***!
+  \************************************/
+/*! exports provided: Counter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Counter", function() { return Counter; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const Counter = ({ common, left }) => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+    } },
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, common),
+    "/",
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, left)));
+
+
+/***/ }),
+
+/***/ "./src/components/Enemy.tsx":
+/*!**********************************!*\
+  !*** ./src/components/Enemy.tsx ***!
+  \**********************************/
+/*! exports provided: Enemy */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Enemy", function() { return Enemy; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../globals */ "./src/globals.ts");
+
+
+const initialPosition = Math.floor(_globals__WEBPACK_IMPORTED_MODULE_1__["MAP_WIDTH"] * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"] / 2 - _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"]);
+const getRandomWalkTo = () => Math.floor(Math.random() * Math.floor(_globals__WEBPACK_IMPORTED_MODULE_1__["MAP_WIDTH"] * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"] - _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"]));
+class Enemy extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
+    constructor() {
+        super(...arguments);
+        this.state = {
+            left: initialPosition,
+        };
+        this.walkTo = getRandomWalkTo();
+    }
+    componentDidMount() {
+        setInterval(() => {
+            if (Math.abs(this.walkTo - this.state.left) < 10) {
+                this.walkTo = getRandomWalkTo();
+            }
+            this.setState({ left: this.walkTo < this.state.left ? this.state.left - 10 : this.state.left + 10 });
+        }, 50);
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.left !== this.state.left) {
+            this.props.setPosition([this.state.left, 4 * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"]]);
+        }
+    }
+    render() {
+        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+                width: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
+                height: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
+                background: "yellow",
+                position: "absolute",
+                left: this.state.left,
+                top: 4 * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
+                zIndex: 2,
+            } }));
+    }
+}
 
 
 /***/ }),
@@ -34626,6 +34737,62 @@ const Ground = ({ isTop }) => (react__WEBPACK_IMPORTED_MODULE_0___default.a.crea
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
     } }));
+
+
+/***/ }),
+
+/***/ "./src/components/Hint.tsx":
+/*!*********************************!*\
+  !*** ./src/components/Hint.tsx ***!
+  \*********************************/
+/*! exports provided: Hint */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hint", function() { return Hint; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const Hint = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+    } },
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "a, d - \u0434\u0432\u0438\u0433\u0430\u0442\u044C\u0441\u044F"),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "w - \u043F\u0440\u044B\u0433\u0430\u0442\u044C"),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "space - \u0432\u0437\u044F\u0442\u044C \u0437\u0430\u043A\u043B\u0430\u0434\u043A\u0443")));
+
+
+/***/ }),
+
+/***/ "./src/components/Lost.tsx":
+/*!*********************************!*\
+  !*** ./src/components/Lost.tsx ***!
+  \*********************************/
+/*! exports provided: Lost */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Lost", function() { return Lost; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const Lost = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        top: 0,
+        left: 0,
+        color: "#ffffff",
+        zIndex: 3,
+        display: "flex",
+        background: "#000000",
+        alignItems: "center",
+        justifyContent: "center",
+    } },
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u0412\u044B \u0441\u0435\u043B\u0438 \u043D\u0430 \u0431\u0443\u0442\u044B\u043B\u043A\u0443 \u043F\u0440\u0430\u0432\u043E\u0441\u0443\u0434\u0438\u044F!")));
 
 
 /***/ }),
@@ -34713,10 +34880,14 @@ class Person extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent 
             }
             switch (e.key) {
                 case "d":
-                    this.setState({ left: this.state.left + _globals__WEBPACK_IMPORTED_MODULE_1__["STEP_SIZE"] });
+                    if (this.state.left < _globals__WEBPACK_IMPORTED_MODULE_1__["MAP_WIDTH"] * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"] - _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"] - _globals__WEBPACK_IMPORTED_MODULE_1__["STEP_SIZE"]) {
+                        this.setState({ left: this.state.left + _globals__WEBPACK_IMPORTED_MODULE_1__["STEP_SIZE"] });
+                    }
                     break;
                 case "a":
-                    this.setState({ left: this.state.left - _globals__WEBPACK_IMPORTED_MODULE_1__["STEP_SIZE"] });
+                    if (this.state.left > 0) {
+                        this.setState({ left: this.state.left - _globals__WEBPACK_IMPORTED_MODULE_1__["STEP_SIZE"] });
+                    }
                     break;
                 case "w":
                     this.setState({ inJump: true });
@@ -34732,12 +34903,22 @@ class Person extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent 
                                     clearInterval(downInterval);
                                     this.setState({ inJump: false });
                                 }
-                            }, 5);
+                            }, 25);
                         }
-                    }, 10);
+                    }, 25);
+                    break;
+                case " ":
+                    this.props.grabTreasure(4, Math.floor(this.state.left / _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"]) + 1);
                     break;
             }
         });
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.left !== this.state.left || prevState.top !== this.state.top) {
+            setTimeout(() => {
+                this.props.setPosition([this.state.left, this.state.top]);
+            }, 100);
+        }
     }
     render() {
         const { left, top } = this.state;
@@ -34826,6 +35007,37 @@ const Tree = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("
 
 /***/ }),
 
+/***/ "./src/components/Win.tsx":
+/*!********************************!*\
+  !*** ./src/components/Win.tsx ***!
+  \********************************/
+/*! exports provided: Win */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Win", function() { return Win; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const Win = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        top: 0,
+        left: 0,
+        color: "#ffffff",
+        zIndex: 3,
+        display: "flex",
+        background: "green",
+        alignItems: "center",
+        justifyContent: "center",
+    } },
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u0412\u044B \u0432\u044B\u0438\u0433\u0440\u0430\u043B\u0438!")));
+
+
+/***/ }),
+
 /***/ "./src/globals.ts":
 /*!************************!*\
   !*** ./src/globals.ts ***!
@@ -34839,8 +35051,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MAP_WIDTH", function() { return MAP_WIDTH; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MAP_HEIGHT", function() { return MAP_HEIGHT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STEP_SIZE", function() { return STEP_SIZE; });
-const BLOCK_SIZE = 80;
-const MAP_WIDTH = 80;
+const BLOCK_SIZE = Math.floor(window.innerWidth / 25);
+const MAP_WIDTH = Math.floor(window.innerWidth / BLOCK_SIZE);
 const MAP_HEIGHT = 7;
 const STEP_SIZE = 15;
 

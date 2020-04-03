@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { BLOCK_SIZE, STEP_SIZE } from "../globals";
+import { BLOCK_SIZE, STEP_SIZE, MAP_WIDTH } from "../globals";
 
-interface PresonState {
+interface PersonState {
     top: number;
     left: number;
     inJump?: boolean;
 }
 
-export class Person extends React.PureComponent<{}, PresonState> {
-    state: PresonState = {
+interface PersonProps {
+    grabTreasure: (i: number, j: number) => void;
+    setPosition: (position: number[]) => void;
+}
+
+export class Person extends React.PureComponent<PersonProps, PersonState> {
+    state: PersonState = {
         top: 4 * BLOCK_SIZE,
         left: 0,
     }
@@ -20,10 +25,14 @@ export class Person extends React.PureComponent<{}, PresonState> {
             }
             switch (e.key) {
                 case "d":
-                    this.setState({ left: this.state.left + STEP_SIZE });
+                    if (this.state.left < MAP_WIDTH * BLOCK_SIZE - BLOCK_SIZE - STEP_SIZE) {
+                        this.setState({ left: this.state.left + STEP_SIZE });
+                    }
                     break;
                 case "a":
-                    this.setState({ left: this.state.left - STEP_SIZE });
+                    if (this.state.left > 0) {
+                        this.setState({ left: this.state.left - STEP_SIZE });
+                    }
                     break;
                 case "w":
                     this.setState({ inJump: true });
@@ -41,12 +50,23 @@ export class Person extends React.PureComponent<{}, PresonState> {
                                     clearInterval(downInterval);
                                     this.setState({ inJump: false });
                                 }
-                            }, 5)
+                            }, 25)
                         }
-                    }, 10)
+                    }, 25)
+                    break;
+                case " ":
+                    this.props.grabTreasure(4, Math.floor(this.state.left / BLOCK_SIZE) + 1);
                     break;
             }
         });
+    }
+
+    componentDidUpdate(prevProps: PersonProps, prevState: PersonState) {
+        if (prevState.left !== this.state.left || prevState.top !== this.state.top) {
+            setTimeout(() => {
+                this.props.setPosition([this.state.left, this.state.top])
+            }, 100)
+        }
     }
 
     render() {
