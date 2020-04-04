@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { BLOCK_SIZE, STEP_SIZE, MAP_WIDTH } from "../globals";
+import React from "react";
+import { BLOCK_SIZE, STEP_SIZE, MAP_WIDTH, SKY_HEIGHT } from "../globals";
+import styled from "styled-components";
 
 interface PersonState {
     top: number;
@@ -12,9 +13,19 @@ interface PersonProps {
     setPosition: (position: number[]) => void;
 }
 
+const PersonComponent = styled.div`
+    width: ${BLOCK_SIZE}px;
+    height: ${BLOCK_SIZE}px;
+    position: absolute;
+    z-index: 2;
+    background-image: url(img/person.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+`;
+
 export class Person extends React.PureComponent<PersonProps, PersonState> {
     state: PersonState = {
-        top: 4 * BLOCK_SIZE,
+        top: SKY_HEIGHT * BLOCK_SIZE,
         left: 0,
     }
 
@@ -46,7 +57,7 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
                                 const newTop = this.state.top + 10;
                                 this.setState({ top: newTop });
 
-                                if (newTop === 4 * BLOCK_SIZE) {
+                                if (newTop === SKY_HEIGHT * BLOCK_SIZE) {
                                     clearInterval(downInterval);
                                     this.setState({ inJump: false });
                                 }
@@ -55,7 +66,7 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
                     }, 25)
                     break;
                 case " ":
-                    this.props.grabTreasure(4, Math.floor(this.state.left / BLOCK_SIZE) + 1);
+                    this.props.grabTreasure(SKY_HEIGHT, Math.floor(this.state.left / BLOCK_SIZE) + 1);
                     break;
             }
         });
@@ -72,17 +83,10 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
     render() {
         const { left, top } = this.state;
         return (
-            <div
+            <PersonComponent
                 style={{
-                    width: BLOCK_SIZE,
-                    height: BLOCK_SIZE,
-                    position: "absolute",
                     left,
-                    top,
-                    zIndex: 2,
-                    background: `url(img/person.png)`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
+                    top
                 }}
             />
         )

@@ -1,4 +1,28 @@
 import React from "react";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-family: "Pixel Cyr";
+    padding: 10px;
+    color: #ffc107;
+    background-image: url(img/treasure.png);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-x: 10px;
+    background-position-y: center;
+    padding-left: 40px;
+    display: flex;
+    font-size: 20px;
+    background-color: #ff5722; 
+`;
+
+const Divider = styled.div`
+    margin-left: 10px;
+    margin-right: 10px;
+`;
 
 interface CounterProps {
     common: number;
@@ -6,31 +30,9 @@ interface CounterProps {
 }
 
 export const Counter: React.FC<CounterProps> = ({ common, left }) => (
-    <div
-        style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            fontFamily: "Pixel Cyr",
-            padding: 10,
-            color: "#ffc107",
-            backgroundImage: `url(img/treasure.png)`,
-            backgroundSize: 20,
-            backgroundRepeat: "no-repeat",
-            backgroundPositionX: 10,
-            backgroundPositionY: "center",
-            paddingLeft: 40,
-            display: "flex",
-            fontSize: 20,
-            backgroundColor: "#ff5722", 
-        }}
-    >
-        <div>
-            {left}
-        </div>
-        <div style={{ marginLeft: 10, marginRight: 10 }}>/</div>
-        <div>
-            {common}
-        </div>
-    </div>
+    <Wrapper>
+        <div>{left}</div>
+        <Divider>/</Divider>
+        <div>{common}</div>
+    </Wrapper>
 )

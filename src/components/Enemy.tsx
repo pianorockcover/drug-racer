@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { BLOCK_SIZE, MAP_WIDTH } from "../globals";
+import React from "react";
+import { BLOCK_SIZE, MAP_WIDTH, SKY_HEIGHT } from "../globals";
+import styled from "styled-components";
 
 const initialPosition = Math.floor(MAP_WIDTH * BLOCK_SIZE / 2 - BLOCK_SIZE);
 const getRandomWalkTo = () => Math.floor(Math.random() * Math.floor(MAP_WIDTH * BLOCK_SIZE - BLOCK_SIZE));
@@ -11,6 +12,17 @@ interface EnemyState {
 interface EnemyProps {
     setPosition: (position: number[]) => void;
 }
+
+const EnemyComponent = styled.div`
+    width: ${BLOCK_SIZE}px;
+    height: ${BLOCK_SIZE}px;
+    position: absolute;
+    top: ${SKY_HEIGHT * BLOCK_SIZE}px;
+    z-index: 2;
+    background-image: url(img/enemy.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+`;
 
 export class Enemy extends React.PureComponent<EnemyProps, EnemyState> {
     state: EnemyState = {
@@ -30,23 +42,15 @@ export class Enemy extends React.PureComponent<EnemyProps, EnemyState> {
 
     componentDidUpdate(prevProps: EnemyProps, prevState: EnemyState) {
         if (prevState.left !== this.state.left) {
-            this.props.setPosition([this.state.left, 4 * BLOCK_SIZE])
+            this.props.setPosition([this.state.left, SKY_HEIGHT * BLOCK_SIZE])
         }
     }
 
     render() {
         return (
-            <div
+            <EnemyComponent
                 style={{
-                    width: BLOCK_SIZE,
-                    height: BLOCK_SIZE,
-                    position: "absolute",
                     left: this.state.left,
-                    top: 4 * BLOCK_SIZE,
-                    zIndex: 2,
-                    backgroundImage: `url(img/enemy.png)`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
                 }}
             />
         )
