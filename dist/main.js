@@ -34655,10 +34655,22 @@ const Counter = ({ common, left }) => (react__WEBPACK_IMPORTED_MODULE_0___defaul
         position: "absolute",
         top: 0,
         right: 0,
+        fontFamily: "Pixel Cyr",
+        padding: 10,
+        color: "#ffc107",
+        backgroundImage: `url(img/treasure.png)`,
+        backgroundSize: 20,
+        backgroundRepeat: "no-repeat",
+        backgroundPositionX: 10,
+        backgroundPositionY: "center",
+        paddingLeft: 40,
+        display: "flex",
+        fontSize: 20,
+        backgroundColor: "#ff5722",
     } },
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, common),
-    "/",
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, left)));
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, left),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: { marginLeft: 10, marginRight: 10 } }, "/"),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, common)));
 
 
 /***/ }),
@@ -34705,11 +34717,13 @@ class Enemy extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
         return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
                 width: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
                 height: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
-                background: "yellow",
                 position: "absolute",
                 left: this.state.left,
                 top: 4 * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
                 zIndex: 2,
+                backgroundImage: `url(img/enemy.png)`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
             } }));
     }
 }
@@ -34733,7 +34747,7 @@ __webpack_require__.r(__webpack_exports__);
 const Ground = ({ isTop }) => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
         width: "100%",
         height: "100%",
-        background: `url(img/ground${isTop ? "-top" : ""}.jpg)`,
+        background: `url(img/ground${isTop ? "-top-1" : "-1"}.jpg)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
     } }));
@@ -34758,6 +34772,9 @@ const Hint = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("
         position: "absolute",
         top: 0,
         left: 0,
+        fontFamily: "Pixel Cyr",
+        color: "#ffffff",
+        padding: 10,
     } },
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "a, d - \u0434\u0432\u0438\u0433\u0430\u0442\u044C\u0441\u044F"),
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "w - \u043F\u0440\u044B\u0433\u0430\u0442\u044C"),
@@ -34812,7 +34829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../globals */ "./src/globals.ts");
 /* harmony import */ var _Ground__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Ground */ "./src/components/Ground.tsx");
 /* harmony import */ var _Sky__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sky */ "./src/components/Sky.tsx");
-/* harmony import */ var _Stown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Stown */ "./src/components/Stown.tsx");
+/* harmony import */ var _Stone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Stone */ "./src/components/Stone.tsx");
 /* harmony import */ var _Tree__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Tree */ "./src/components/Tree.tsx");
 
 
@@ -34829,7 +34846,7 @@ const getTileComponent = (tile) => {
         case "gt":
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Ground__WEBPACK_IMPORTED_MODULE_2__["Ground"], { isTop: true });
         case "st":
-            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Stown__WEBPACK_IMPORTED_MODULE_4__["Stown"], null);
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Stone__WEBPACK_IMPORTED_MODULE_4__["Stone"], null);
         case "tr":
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Tree__WEBPACK_IMPORTED_MODULE_5__["Tree"], null);
         default:
@@ -34837,7 +34854,15 @@ const getTileComponent = (tile) => {
     }
 };
 const Map = react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(({ tiles }) => {
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: { maxWidth: "100%", overflow: "hidden", background: "#29b6f6" } },
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+            maxWidth: "100%",
+            overflow: "hidden",
+            background: `url(img/sky.jpg)`,
+            backgroundColor: "#00265d",
+            backgroundSize: "cover",
+            backgroundPositionX: "center",
+            backgroundPositionY: "center",
+        } },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: { position: "relative", width: _globals__WEBPACK_IMPORTED_MODULE_1__["MAP_WIDTH"] * _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"] } }, tiles.map((row, i) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
                 display: "flex",
             }, key: i }, row.map((tile, j) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
@@ -34925,11 +34950,13 @@ class Person extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent 
         return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
                 width: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
                 height: _globals__WEBPACK_IMPORTED_MODULE_1__["BLOCK_SIZE"],
-                background: "red",
                 position: "absolute",
                 left,
                 top,
                 zIndex: 2,
+                background: `url(img/person.png)`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
             } }));
     }
 }
@@ -34959,23 +34986,25 @@ const Sky = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("d
 
 /***/ }),
 
-/***/ "./src/components/Stown.tsx":
+/***/ "./src/components/Stone.tsx":
 /*!**********************************!*\
-  !*** ./src/components/Stown.tsx ***!
+  !*** ./src/components/Stone.tsx ***!
   \**********************************/
-/*! exports provided: Stown */
+/*! exports provided: Stone */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Stown", function() { return Stown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Stone", function() { return Stone; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_random__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/random */ "./src/utils/random.ts");
 
-const Stown = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
+
+const Stone = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
         width: "100%",
         height: "100%",
-        background: `url(img/stown.png)`,
+        background: `url(img/stone-${Object(_utils_random__WEBPACK_IMPORTED_MODULE_1__["randomInt"])(1, 2)}.png)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
     } }));
@@ -34995,11 +35024,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tree", function() { return Tree; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_random__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/random */ "./src/utils/random.ts");
+
 
 const Tree = () => (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { style: {
         width: "100%",
         height: "100%",
-        background: `url(img/tree.png)`,
+        background: `url(img/tree-${Object(_utils_random__WEBPACK_IMPORTED_MODULE_1__["randomInt"])(1, 2)}.png)`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
     } }));
@@ -35077,6 +35108,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["App"], null), document.getElementById("app"));
+
+
+/***/ }),
+
+/***/ "./src/utils/random.ts":
+/*!*****************************!*\
+  !*** ./src/utils/random.ts ***!
+  \*****************************/
+/*! exports provided: randomInt */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
+const randomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
 
 /***/ }),

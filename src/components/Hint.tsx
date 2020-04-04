@@ -6,6 +6,9 @@ export const Hint = () => (
             position: "absolute",
             top: 0,
             left: 0,
+            fontFamily: "Pixel Cyr",
+            color: "#ffffff",
+            padding: 10,
         }}
     >
         <div>

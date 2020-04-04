@@ -2,7 +2,7 @@ import React from "react";
 import { MapTiles, Tile, BLOCK_SIZE, MAP_WIDTH } from "../globals";
 import { Ground } from "./Ground";
 import { Sky } from "./Sky";
-import { Stown } from "./Stown";
+import { Stone } from "./Stone";
 import { Tree } from "./Tree";
 
 interface MapProps {
@@ -18,7 +18,7 @@ const getTileComponent = (tile: Tile) => {
         case "gt":
             return <Ground isTop={true} />
         case "st":
-            return <Stown />
+            return <Stone />
         case "tr":
             return <Tree />
         default:
@@ -28,7 +28,15 @@ const getTileComponent = (tile: Tile) => {
 
 export const Map = React.memo(({ tiles }: MapProps) => {
     return (
-        <div style={{ maxWidth: "100%", overflow: "hidden", background: "#29b6f6" }}>
+        <div style={{
+            maxWidth: "100%",
+            overflow: "hidden",
+            background: `url(img/sky.jpg)`,
+            backgroundColor: "#00265d",
+            backgroundSize: "cover",
+            backgroundPositionX: "center",
+            backgroundPositionY: "center",
+        }}>
             <div style={{ position: "relative", width: MAP_WIDTH * BLOCK_SIZE }}>
                 {tiles.map((row, i) =>
                     <div

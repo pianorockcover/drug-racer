@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Pixel Cyr';
+    src: url('fonts/PixelCyr-Normal.woff2') format('woff2'),
+        url('fonts/PixelCyr-Normal.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+

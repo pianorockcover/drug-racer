@@ -40,11 +40,13 @@ export class Enemy extends React.PureComponent<EnemyProps, EnemyState> {
                 style={{
                     width: BLOCK_SIZE,
                     height: BLOCK_SIZE,
-                    background: "yellow",
                     position: "absolute",
                     left: this.state.left,
                     top: 4 * BLOCK_SIZE,
                     zIndex: 2,
+                    backgroundImage: `url(img/enemy.png)`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
                 }}
             />
         )

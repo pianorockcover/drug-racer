@@ -76,11 +76,13 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
                 style={{
                     width: BLOCK_SIZE,
                     height: BLOCK_SIZE,
-                    background: "red",
                     position: "absolute",
                     left,
                     top,
                     zIndex: 2,
+                    background: `url(img/person.png)`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
                 }}
             />
         )
