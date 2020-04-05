@@ -8,10 +8,17 @@ import styled from "styled-components";
 import { Map } from "./components/map/Map";
 
 const Wrapper = styled.div`
-    position: relative;
-    overflow: hidden;
+    justify-content: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
 `;
 
+const Area = styled.div`
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+`
 interface GameProps {
     onWin: () => void;
     onLoose: () => void;
@@ -44,17 +51,19 @@ export const Game: React.FC<GameProps> = ({ onWin, onLoose }) => {
 
     return (
         <Wrapper>
-            <Map tiles={tiles} />
-            <Hint />
-            <Counter
-                common={treasures}
-                left={grabbedTreasures.length}
-            />
-            <Person
-                grabTreasure={grabTreasure}
-                setPosition={setPersonPosition}
-            />
-            <Enemy setPosition={setEnemyPosition} />
+            <Area>
+                <Map tiles={tiles} />
+                <Hint />
+                <Counter
+                    common={treasures}
+                    left={grabbedTreasures.length}
+                />
+                <Person
+                    grabTreasure={grabTreasure}
+                    setPosition={setPersonPosition}
+                />
+                <Enemy setPosition={setEnemyPosition} />
+            </Area>
         </Wrapper>
     )
 }

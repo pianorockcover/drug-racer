@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     color: #ffffff;
     z-index: 3;
     display: flex;
-    background: #000000;
+    background: #121212;
     align-items: center;
     font-family: "Pixel Cyr";
     justify-content: center;
@@ -23,10 +23,18 @@ interface LooseProps {
 
 export const Loose: React.FC<LooseProps> = ({ onStartGame }) => (
     <Wrapper>
-        <img src="img/beer.png" />
+        <img
+            src="img/beer.png"
+            style={{ marginRight: 10 }}
+        />
         <div>
             <div>Вы сели на бутылку правосудия!</div>
-            <StartGameButton onClick={onStartGame}>Искать</StartGameButton>
+            <StartGameButton
+                onClick={onStartGame}
+                style={{ color: "#ffffff" }}
+            >
+                Играть снова
+            </StartGameButton>
         </div>
     </Wrapper>
 )

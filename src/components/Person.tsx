@@ -29,44 +29,51 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
         left: 0,
     }
 
+    onRight = () => (this.state.left < MAP_WIDTH * BLOCK_SIZE - BLOCK_SIZE - STEP_SIZE)
+        && this.setState({ left: this.state.left + STEP_SIZE });
+
+    onLeft = () => this.state.left > 0 && this.setState({ left: this.state.left - STEP_SIZE });
+
+    onJump = () => {
+        this.setState({ inJump: true });
+        const upInterval = setInterval(() => {
+            const newTop = this.state.top - 10;
+            this.setState({ top: newTop });
+            if (newTop < BLOCK_SIZE / 2) {
+                clearInterval(upInterval);
+
+                const downInterval = setInterval(() => {
+                    const newTop = this.state.top + 10;
+                    this.setState({ top: newTop });
+
+                    if (newTop === SKY_HEIGHT * BLOCK_SIZE) {
+                        clearInterval(downInterval);
+                        this.setState({ inJump: false });
+                    }
+                }, 25)
+            }
+        }, 25)
+    }
+
+    onGrab = () => this.props.grabTreasure(SKY_HEIGHT, Math.floor(this.state.left / BLOCK_SIZE) + 1);
+
     componentDidMount() {
         document.addEventListener("keydown", (e) => {
             if (this.state.inJump) {
                 return;
             }
-            switch (e.key) {
-                case "d":
-                    if (this.state.left < MAP_WIDTH * BLOCK_SIZE - BLOCK_SIZE - STEP_SIZE) {
-                        this.setState({ left: this.state.left + STEP_SIZE });
-                    }
+            switch (e.keyCode) {
+                case 68:
+                    this.onRight();
                     break;
-                case "a":
-                    if (this.state.left > 0) {
-                        this.setState({ left: this.state.left - STEP_SIZE });
-                    }
+                case 65:
+                    this.onLeft();
                     break;
-                case "w":
-                    this.setState({ inJump: true });
-                    const upInterval = setInterval(() => {
-                        const newTop = this.state.top - 10;
-                        this.setState({ top: newTop });
-                        if (newTop < BLOCK_SIZE / 2) {
-                            clearInterval(upInterval);
-
-                            const downInterval = setInterval(() => {
-                                const newTop = this.state.top + 10;
-                                this.setState({ top: newTop });
-
-                                if (newTop === SKY_HEIGHT * BLOCK_SIZE) {
-                                    clearInterval(downInterval);
-                                    this.setState({ inJump: false });
-                                }
-                            }, 25)
-                        }
-                    }, 25)
+                case 87:
+                    this.onJump();
                     break;
-                case " ":
-                    this.props.grabTreasure(SKY_HEIGHT, Math.floor(this.state.left / BLOCK_SIZE) + 1);
+                case 32:
+                    this.onGrab();
                     break;
             }
         });
@@ -83,12 +90,14 @@ export class Person extends React.PureComponent<PersonProps, PersonState> {
     render() {
         const { left, top } = this.state;
         return (
-            <PersonComponent
-                style={{
-                    left,
-                    top
-                }}
-            />
+            <>
+                <PersonComponent
+                    style={{
+                        left,
+                        top
+                    }}
+                />
+            </>
         )
     }
 }

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Game } from "./Game";
 import { StartPage } from "./components/StartPage";
 import { Win } from "./components/Win";
-import { Loose } from "./components/Lost";
+import { Loose } from "./components/Loose";
 
 const Wrapper = styled.div`
     display: flex;
