@@ -1,1 +1,1 @@
-# Drug Racer Game
+# Platformer game written via React
